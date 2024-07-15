@@ -1,0 +1,39 @@
+<div class="user-detail">
+  <h2>Task Detail</h2>
+  <h5 *ngIf="(selectedTasksLoading$ | async); else noTask">
+    Data Loading...
+  </h5>
+
+  <dl class="user-detail__card" *ngIf="selectedTask$ | async as task;">
+    <app-task-detail-field key="ID">{{task.id}}</app-task-detail-field>
+    <app-task-detail-field key="Description">{{task.description}}</app-task-detail-field>
+    <app-task-detail-field key="Assignee">
+      <select (change)="onAssignTask($event.target.value)">
+        <option></option>
+        <option *ngFor="let user of selectedUsers$ | async" [selected]="user.id === +task.assigneeId" [value]="user.id">
+          {{user.name}}
+        </option>
+      </select>
+    </app-task-detail-field>
+    <app-task-detail-field key="Completed">
+      <select (change)="onCompleteTask($event.target.value)">
+        <option [selected]="task.completed" [value]="true">
+          Yes
+        </option>
+        <option [selected]="!task.completed" [value]="false">
+          No
+        </option>
+      </select>
+    </app-task-detail-field>
+
+    
+  </dl>
+
+  <ng-template #noTask>
+    <h5 *ngIf="!(selectedTask$ | async)">
+      Task could not be found!!!
+    </h5>
+  </ng-template>
+
+  <app-link routerLink="/tasks">Back To Tasks</app-link>
+</div>

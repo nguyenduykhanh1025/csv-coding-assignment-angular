@@ -1,0 +1,46 @@
+<div class="user-list">
+  <form class="user-list__create-form" [formGroup]="createNewTaskForm" (submit)="onSubmitCreatingTask()">
+    <input type="text" placeholder="Description" required formControlName="description">
+    <button type="submit">Add New Task</button>
+    <ng-container
+      *ngIf="(createNewTaskForm.controls.description.touched && createNewTaskForm.controls.description.invalid || createNewTaskForm.touched) && createNewTaskForm.controls.description.hasError('required')">
+      <div class="user-list__create-form__errors">This field is required!</div>
+    </ng-container>
+  </form>
+
+  <h2>Tasks</h2>
+  <input class="user-list__search" type="text" placeholder="Search" (input)="handleSearch($event.target.value)" [value]="selectedSearchedValue$ | async">
+
+  <table class="user-list__table">
+    <thead class="user-list__table__header">
+      <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>AssigneeID</th>
+        <th>Completed</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+
+    <tbody class="user-list__table__body">
+      <ng-container *ngIf="!(selectedTasksLoading$ | async)">
+        <tr *ngFor="let task of (selectedTasks$ | async)">
+          <td>{{ task.id }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.assigneeName }}</td>
+          <td>{{ task.completed ? 'Yes' : 'No' }}</td>
+          <td>
+            <app-link [routerLink]="task.id">Read more</app-link>
+          </td>
+        </tr>
+      </ng-container>
+
+      <h5 *ngIf="(selectedTasksLoading$ | async); else noLoading">Data Loading...</h5>
+
+      <ng-template #noLoading>
+        <h5 *ngIf="!(selectedTasks$ | async).length">No Data...</h5>
+      </ng-template>
+
+    </tbody>
+  </table>
+</div>

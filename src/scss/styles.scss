@@ -1,0 +1,7 @@
+@use "./variables"as *;
+
+body {
+  font-family: Raleway, sans-serif;
+  background-color: $grey-3;
+  color: $white;
+}

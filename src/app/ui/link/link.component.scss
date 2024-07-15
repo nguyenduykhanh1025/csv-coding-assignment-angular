@@ -1,0 +1,6 @@
+@use "../../../scss/variables" as *;
+
+:host {
+  font-weight: 500;
+  color: $blue;
+}

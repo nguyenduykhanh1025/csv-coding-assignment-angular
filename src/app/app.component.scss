@@ -1,0 +1,9 @@
+@use "../scss/variables" as *;
+
+.app {
+  &__header {
+    color: $blue;
+    text-align: center;
+    font-style: oblique;
+  }
+}
